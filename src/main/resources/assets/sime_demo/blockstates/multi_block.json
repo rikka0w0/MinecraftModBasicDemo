@@ -1,0 +1,189 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "nothing": "sime_demo:blocks/transparent",
+            "drop": "sime_demo:blocks/cable_medium_copper",
+                      
+            "insulator_down":   "#insulator",
+            "insulator_up":     "#insulator",
+            "insulator_north":  "#insulator",
+            "insulator_south":  "#insulator",
+            "insulator_west":   "#insulator",
+            "insulator_east":   "#insulator"            
+        }
+    },
+    "variants": {
+        "atype":{
+            0: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_thin_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_4"}
+                 }             
+            },
+            1: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_thin_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_6"}
+                }             
+            },
+            2: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_thin_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_8"}
+                }             
+            },
+            3: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_medium_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_10"}
+                }             
+            },
+            4: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_medium_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_12"}
+                }             
+            },
+            5: {
+                "textures": {
+                    "insulator": "sime_demo:blocks/cable_medium_side",
+                    "copper": "sime_demo:blocks/cable_medium_copper"
+                },
+                "submodel": {
+                    "center":       {"model": "sime_demo:cable_14"}
+                }             
+            }           
+        },
+        
+        "bdown":{
+            "true":     {},
+            "false":    {"textures": {"insulator_down": "#nothing"}}
+        },
+        
+        "bup":{
+            "true":     {},
+            "false":    {"textures": {"insulator_up": "#nothing"}}
+        },
+
+        "bnorth":{
+            "true":     {},
+            "false":    {"textures": {"insulator_north": "#nothing"}}
+        },
+        
+        "bsouth":{
+            "true":     {},
+            "false":    {"textures": {"insulator_south": "#nothing"}}
+        },
+
+        "bwest":{
+            "true":     {},
+            "false":    {"textures": {"insulator_west": "#nothing"}}
+        },
+        
+        "beast":{
+            "true":     {},
+            "false":    {"textures": {"insulator_east": "#nothing"}}
+        },
+
+        "center":{
+            0:  {
+                 "textures": {
+                    "center_down": "#copper",
+                    "center_up":   "#insulator",
+                    "center_north": "#insulator",
+                    "center_south": "#insulator",
+                    "center_west": "#insulator",
+                    "center_east": "#insulator"
+                }               
+            },
+            1:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#copper",
+                    "center_north": "#insulator",
+                    "center_south": "#insulator",
+                    "center_west": "#insulator",
+                    "center_east": "#insulator"
+                }               
+            },
+            2:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#insulator",
+                    "center_north": "#copper",
+                    "center_south": "#insulator",
+                    "center_west": "#insulator",
+                    "center_east": "#insulator"
+                }               
+            },
+            3:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#insulator",
+                    "center_north": "#insulator",
+                    "center_south": "#copper",
+                    "center_west": "#insulator",
+                    "center_east": "#insulator"
+                }               
+            },
+            4:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#insulator",
+                    "center_north": "#insulator",
+                    "center_south": "#insulator",
+                    "center_west": "#copper",
+                    "center_east": "#insulator"
+                }               
+            },
+            5:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#insulator",
+                    "center_north": "#insulator",
+                    "center_south": "#insulator",
+                    "center_west": "#insulator",
+                    "center_east": "#copper"
+                }               
+            },
+            6:  {
+                 "textures": {
+                    "center_down": "#insulator",
+                    "center_up":   "#insulator",
+                    "center_north": "#insulator",
+                    "center_south": "#insulator",
+                    "center_west": "#insulator",
+                    "center_east": "#insulator"
+                }               
+            }, 
+            7:  {
+                 "textures": {
+                    "center_down": "#copper",
+                    "center_up":   "#copper",
+                    "center_north": "#copper",
+                    "center_south": "#copper",
+                    "center_west": "#copper",
+                    "center_east": "#copper"
+                }               
+            }                        
+        }
+
+
+    }
+}
