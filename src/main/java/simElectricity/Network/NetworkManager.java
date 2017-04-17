@@ -99,8 +99,8 @@ public class NetworkManager{
     public void onChunkWatchEvent(ChunkWatchEvent.Watch event) {   	
         Chunk chunk = event.getPlayer().world.getChunkFromChunkCoords(event.getChunk().chunkXPos, event.getChunk().chunkZPos);
         for (TileEntity tileEntity : chunk.getTileEntityMap().values()) {
-            if (tileEntity instanceof IServerToClientSyncHanlder){
-            	((IServerToClientSyncHanlder)tileEntity).sendRenderingInfoToClient();
+            if (tileEntity instanceof ITileRenderingInfoSyncHandler){
+            	((ITileRenderingInfoSyncHandler)tileEntity).sendRenderingInfoToClient();
             }
         }
     }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import simElectricity.Network.IServerToClientSyncHanlder;
+import simElectricity.Network.ITileRenderingInfoSyncHandler;
 import simElectricity.blocks.tile.TileCable;
 import simElectricity.utils.SEBlock;
 
@@ -32,6 +32,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -230,8 +231,9 @@ public class MultiBlock extends SEBlock implements ITileEntityProvider{
 
 		for (EnumFacing dir: EnumFacing.VALUES){
 			TileEntity neighborTE = worldIn.getTileEntity(pos.offset(dir));
-			if (neighborTE instanceof IServerToClientSyncHanlder)
-				((IServerToClientSyncHanlder) neighborTE).sendRenderingInfoToClient();
+			if (neighborTE instanceof ITileRenderingInfoSyncHandler)
+				((ITileRenderingInfoSyncHandler) neighborTE).sendRenderingInfoToClient();
+			// TODO : this need to be revised
 		}
     	return;
     }
@@ -261,17 +263,106 @@ public class MultiBlock extends SEBlock implements ITileEntityProvider{
         return BlockRenderLayer.CUTOUT;
     }
     
+	@Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+    {
+        return state.getBoundingBox(worldIn, pos).offset(pos).expand(0.015, 0.015, 0.015);
+    }
+    
+    //diesieben07:
+    //Yes, Mojang seems to use deprecated in the sense of "don't call this, but overriding it is necessary still" here. 
+    
 	//Collision Box
 	@Override
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_){
-		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
+    public boolean isFullCube(IBlockState state)
+    {
+        return false;
+    }
+    
+	@Override
+    public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB axisAlignedBB, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entity, boolean useless){
+		state = this.getActualState(state, world, pos);
+		int meta = state.getValue(pIntType);
 		
+		double x1,y1,z1, x2,y2,z2;
+		x1= 8 - (meta+2);
+		y1= x1;
+		z1= x1;
+		x2= 8 + (meta+2);
+		y2= x2;
+		z2= x2;
 		
+		x1 *= 0.0625;
+		y1 *= 0.0625;
+		z1 *= 0.0625;
+		x2 *= 0.0625;
+		y2 *= 0.0625;
+		z2 *= 0.0625;
+		
+		//Center
+		addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,y1,z1,x2,y2,z2));
+		
+		if (state.getValue(pBoolDown))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,0,z1,x2,y2,z2));
+		
+		if (state.getValue(pBoolUp))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,y1,z1,x2,1,z2));
+		
+		if (state.getValue(pBoolNorth))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,y1,0,x2,y2,z2));
+		
+		if (state.getValue(pBoolSouth))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,y1,z1,x2,y2,1));
+				
+		if (state.getValue(pBoolWest))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(0,y1,z1,x2,y2,z2));
+		
+		if (state.getValue(pBoolEast))
+			addCollisionBoxToList(pos, axisAlignedBB, collidingBoxes, new AxisAlignedBB(x1,y1,z1,1,y2,z2));
     }
 	
+
+	
 	@Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return blockState.getBoundingBox(worldIn, pos);
+		state = this.getActualState(state, source, pos);
+		int meta = state.getValue(pIntType);
+
+		double x1,y1,z1, x2,y2,z2;
+		x1= 8 - (meta+2);
+		y1= x1;
+		z1= x1;
+		x2= 8 + (meta+2);
+		y2= x2;
+		z2= x2;
+		
+		x1 *= 0.0625;
+		y1 *= 0.0625;
+		z1 *= 0.0625;
+		x2 *= 0.0625;
+		y2 *= 0.0625;
+		z2 *= 0.0625;
+	
+		if (state.getValue(pBoolDown))
+			y1 = 0;
+		
+		if (state.getValue(pBoolUp))
+			y2 = 1;
+		
+		if (state.getValue(pBoolNorth))
+			z1 = 0;
+		
+		if (state.getValue(pBoolSouth))
+			z2 = 1;
+				
+		if (state.getValue(pBoolWest))
+			x1 = 0;
+		
+		if (state.getValue(pBoolEast))
+			x2 = 1;
+		
+		return (new AxisAlignedBB(x1,y1,z1,x2,y2,z2));
     }
 }
